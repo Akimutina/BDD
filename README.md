@@ -1,2 +1,1 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/6xifd8q7ltvo6rjq?svg=true)](https://ci.appveyor.com/project/Akimutina/patterns-1)
-
+[![Build status](https://ci.appveyor.com/api/projects/status/b54mrargdaoden44?svg=true)](https://ci.appveyor.com/project/Akimutina/bdd)
