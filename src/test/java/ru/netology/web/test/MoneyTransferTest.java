@@ -54,5 +54,27 @@ class MoneyTransferTest {
         assertEquals(secondCardBalanceFinish, cardBalancePage.getSecondCardBalance());
     }
 
+    @Test
+    public void notShouldTransferExceedCardBalance() {
+        val cardBalancePage = new CardBalancePage();
+        val firstCardBalanceStart = cardBalancePage.getFirstCardBalance();
+        val secondCardBalanceStart = cardBalancePage.getSecondCardBalance();
+        val transactionPage = pushSecondCardButton();
+        val amount = generateInvalidAmount(firstCardBalanceStart);
+        transactionPage.transferMoney(amount, getFirstCardNumber());
+        transactionPage.errorLimit();
+    }
+
+    @Test
+    public void notShouldTransferFromSecondToSecondCard() {
+        val cardBalancePage = new CardBalancePage();
+        val firstCardBalanceStart = cardBalancePage.getFirstCardBalance();
+        val secondCardBalanceStart = cardBalancePage.getSecondCardBalance();
+        val transactionPage = pushSecondCardButton();
+        val amount = generateValidAmount(secondCardBalanceStart);
+        transactionPage.transferMoney(amount, getFirstCardNumber());
+        transactionPage.invalidCard();
+    }
+
 }
 

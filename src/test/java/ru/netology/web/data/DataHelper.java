@@ -54,4 +54,8 @@ public class DataHelper {
         return new Random().nextInt(balance) + 1;
     }
 
+    public static int generateInvalidAmount(int balance) {
+
+        return Math.abs(balance) + new Random().nextInt(10000);
+    }
 }

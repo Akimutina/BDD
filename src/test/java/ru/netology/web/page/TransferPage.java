@@ -25,4 +25,16 @@ public class TransferPage {
         new CardBalancePage();
     }
 
+    public void errorLimit() {
+        errorMessage
+                .shouldHave(Condition.text("Ошибка!"), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
+    }
+
+    public void invalidCard() {
+        errorMessage
+                .shouldHave(Condition.text("Ошибка!"), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
+    }
+
 }
