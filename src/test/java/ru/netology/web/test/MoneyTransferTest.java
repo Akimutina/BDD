@@ -10,8 +10,6 @@ import ru.netology.web.page.LoginPageV2;
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.netology.web.data.DataHelper.*;
-import static ru.netology.web.page.CardBalancePage.pushFirstCardButton;
-import static ru.netology.web.page.CardBalancePage.pushSecondCardButton;
 
 class MoneyTransferTest {
 
@@ -30,7 +28,7 @@ class MoneyTransferTest {
         val cardBalancePage = new CardBalancePage();
         val firstCardBalanceStart = cardBalancePage.getFirstCardBalance();
         val secondCardBalanceStart = cardBalancePage.getSecondCardBalance();
-        val transferPage = pushSecondCardButton();
+        val transferPage = cardBalancePage.pushSecondCardButton();
         val amount = generateValidAmount(firstCardBalanceStart);
         transferPage.transferMoney(amount, getFirstCardNumber());
         val firstCardBalanceFinish = firstCardBalanceStart - amount;
@@ -44,9 +42,9 @@ class MoneyTransferTest {
         val cardBalancePage = new CardBalancePage();
         val firstCardBalanceStart = cardBalancePage.getFirstCardBalance();
         val secondCardBalanceStart = cardBalancePage.getSecondCardBalance();
-        val transactionPage = pushFirstCardButton();
+        val transferPage = cardBalancePage.pushFirstCardButton();
         val amount = generateValidAmount(secondCardBalanceStart);
-        transactionPage.transferMoney(amount, getSecondCardNumber());
+        transferPage.transferMoney(amount, getSecondCardNumber());
         val firstCardBalanceFinish = firstCardBalanceStart + amount;
         val secondCardBalanceFinish = secondCardBalanceStart - amount;
 
@@ -58,22 +56,20 @@ class MoneyTransferTest {
     public void notShouldTransferExceedCardBalance() {
         val cardBalancePage = new CardBalancePage();
         val firstCardBalanceStart = cardBalancePage.getFirstCardBalance();
-        val secondCardBalanceStart = cardBalancePage.getSecondCardBalance();
-        val transactionPage = pushSecondCardButton();
+        val transferPage = cardBalancePage.pushSecondCardButton();
         val amount = generateInvalidAmount(firstCardBalanceStart);
-        transactionPage.transferMoney(amount, getFirstCardNumber());
-        transactionPage.errorLimit();
+        transferPage.transferMoney(amount, getFirstCardNumber());
+        transferPage.findErrorMessage("Ошибка о превышении лимита");
     }
 
     @Test
     public void notShouldTransferFromSecondToSecondCard() {
         val cardBalancePage = new CardBalancePage();
-        val firstCardBalanceStart = cardBalancePage.getFirstCardBalance();
         val secondCardBalanceStart = cardBalancePage.getSecondCardBalance();
-        val transactionPage = pushSecondCardButton();
+        val transferPage = cardBalancePage.pushSecondCardButton();
         val amount = generateValidAmount(secondCardBalanceStart);
-        transactionPage.transferMoney(amount, getFirstCardNumber());
-        transactionPage.invalidCard();
+        transferPage.transferMoney(amount, getFirstCardNumber());
+        transferPage.findErrorMessage("Ошибка про одинаковую карту");
     }
 
 }
